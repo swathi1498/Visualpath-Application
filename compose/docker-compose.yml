@@ -4,3 +4,15 @@ services:
     image: kumarltd/vproappfix:19
     ports:
       - "8090:8080"
+
+  vprodb:
+    image: vevadevops/vprdbfix
+    ports:
+      - "3306:3306"
+    volumes:
+      - vprodbdata:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=vprodbpass
+
+volumes:
+  vprodbdata: {}
