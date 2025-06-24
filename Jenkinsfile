@@ -18,7 +18,7 @@ node{
    
   stage('Push Docker Image'){ 
    withDockerRegistry(credentialsId: '9941d5ad-0f51-4929-aec4-abae7891ba8a', url: 'https://index.docker.io/v1/') {
-    sh 'docker push kumarltd/vproappfix'
+    sh 'docker push kumarltd/vproappfix:latest'
    }
  }
   stage('Deploy Docker Container into Docker Dev Server'){
