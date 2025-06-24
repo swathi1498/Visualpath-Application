@@ -13,17 +13,22 @@ node{
      sh 'mkdir -p Docker-app/target'
      sh 'cp target/vprofile-v2.war Docker-app/target/'
      sh 'docker build -t kumarltd/vproappfix:$BUILD_ID Docker-app/'
+     sh 'docker build -t kumarltd/vpronginx:$BUILD_ID Docker-web/'
      sh 'docker tag kumarltd/vproappfix:$BUILD_ID kumarltd/vproappfix:latest'
+     sh 'docker tag kumarltd/vpronginx:$BUILD_ID kumarltd/vpronginx:latest'
    }
    
   stage('Push Docker Image'){ 
    withDockerRegistry(credentialsId: '9941d5ad-0f51-4929-aec4-abae7891ba8a', url: 'https://index.docker.io/v1/') {
     sh 'docker push kumarltd/vproappfix:latest'
+    sh 'docker push kumarltd/vpronginx:latest'
    }
  }
   stage('Deploy Docker Container into Docker Dev Server'){
      script {
      def dockerRun = 'docker run -p 8080:8080 -d --name vproapp kumarltd/vproappfix'
+     def dockerRun = 'docker run -p 80:80 -d --name vpronginx kumarltd/vpronginx'
+
    sshagent(['0a8347e7-e99a-47cb-bf99-626cd74ee6a6']) {
     
     sh "scp -o StrictHostKeyChecking=no compose/* ubuntu@172.31.82.58:/home/ubuntu"
