@@ -27,7 +27,7 @@ node{
   stage('Deploy Docker Container into Docker Dev Server'){
      script {
      def dockerRun = 'docker run -p 8080:8080 -d --name vproapp kumarltd/vproappfix'
-     def dockerRun = 'docker run -p 80:80 -d --name vpronginx kumarltd/vpronginx'
+     def dockerRuns = 'docker run -p 80:80 -d --name vpronginx kumarltd/vpronginx'
 
    sshagent(['0a8347e7-e99a-47cb-bf99-626cd74ee6a6']) {
     
