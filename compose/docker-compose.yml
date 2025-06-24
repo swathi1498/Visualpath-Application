@@ -1,17 +1,17 @@
 version: '3'
 services:
   vpronginx:
-    image: kumarltd/vpronginx
+    image: kumarltd/vpronginx:19
     ports:
       - "80:80"
 
   vproapp:
-    image: kumarltd/vproappfix
+    image: kumarltd/vproappfix:19
     ports:
       - "8090:8080"
 
   vprodb:
-    image: kumarltd/vprdbfix
+    image: kumarltd/vprdbfix:19
     ports:
       - "3306:3306"
     volumes:
