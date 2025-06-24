@@ -1,5 +1,10 @@
 version: '3'
 services:
+  vpronginx:
+    image: vevadevops/vpronginx
+    ports:
+      - "80:80"
+
   vproapp:
     image: kumarltd/vproappfix:19
     ports:
