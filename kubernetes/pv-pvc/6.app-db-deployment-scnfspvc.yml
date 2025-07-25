@@ -21,10 +21,6 @@ spec:
         ports:
         - name: vproapp-port
           containerPort: 8080
-      initContainers:
-        - name: init-mydb
-          image: busybox:1.35
-          command: ['sh', '-c', 'until nc -zv vprodb 3306; do echo waiting for MySQL; sleep 2; done;']
 ---
 # Vprofile app service
 apiVersion: v1
