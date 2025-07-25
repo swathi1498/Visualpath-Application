@@ -3,7 +3,7 @@ kind: ServiceAccount
 apiVersion: v1
 metadata:
   name: nfs-pod-provisioner-sa
-  namespace: kube-system
+  namespace: default
 ---
 kind: ClusterRole # Role of kubernetes
 apiVersion: rbac.authorization.k8s.io/v1 # auth API
@@ -30,7 +30,7 @@ metadata:
 subjects:
   - kind: ServiceAccount
     name: nfs-pod-provisioner-sa # defined on top of file
-    namespace: kube-system
+    namespace: default
 roleRef: # binding cluster role to service account
   kind: ClusterRole
   name: nfs-provisioner-clusterRole # name defined in clusterRole
@@ -40,7 +40,7 @@ kind: Role
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: nfs-pod-provisioner-otherRoles
-  namespace: kube-system
+  namespace: default
 rules:
   - apiGroups: [""]
     resources: ["endpoints"]
@@ -50,12 +50,12 @@ kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: nfs-pod-provisioner-otherRoles
-  namespace: kube-system
+  namespace: default
 subjects:
   - kind: ServiceAccount
     name: nfs-pod-provisioner-sa # same as top of the file
     # replace with namespace where provisioner is deployed
-    namespace: kube-system
+    namespace: default
 roleRef:
   kind: Role
   name: nfs-pod-provisioner-otherRoles
@@ -66,7 +66,7 @@ kind: Deployment
 apiVersion: apps/v1
 metadata:
   name: nfs-pod-provisioner
-  namespace: kube-system
+  namespace: default
 spec:
   replicas: 1
   selector:
