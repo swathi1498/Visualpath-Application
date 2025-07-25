@@ -38,7 +38,7 @@ spec:
     protocol: TCP
   selector:
     app: vproapp
-  type: NodePort
+  type: LoadBalancer
 ---
 # Vprofile DB deployment
 apiVersion: apps/v1
