@@ -5,3 +5,7 @@ metadata:
 provisioner: ebs.csi.aws.com
 volumeBindingMode: Immediate
 reclaimPolicy: Retain
+parameters:
+  type: gp2
+  fsType: ext4
+  availabilityZone: us-east-1a  # or -1b, or -1c
