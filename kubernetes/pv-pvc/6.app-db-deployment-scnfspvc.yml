@@ -39,14 +39,14 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: ebs-pvc
+  name: ebs-claim
 spec:
   accessModes:
     - ReadWriteOnce
   storageClassName: ebs-sc
   resources:
     requests:
-      storage: 5Gi
+      storage: 4Gi
 
 ---
 # Vprofile DB deployment
@@ -69,7 +69,7 @@ spec:
       volumes:
       - name: mysqldbvolume
         persistentVolumeClaim:
-          claimName: ebs-pvc
+          claimName: ebs-claim
       containers:
       - name: vprodb
         image: vevadevops/vprodbfix
