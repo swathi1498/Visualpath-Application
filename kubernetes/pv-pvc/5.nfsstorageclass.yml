@@ -5,6 +5,3 @@ metadata:
 provisioner: ebs.csi.aws.com
 volumeBindingMode: Immediate
 reclaimPolicy: Retain
-parameters:
-  type: gp2
-  fsType: ext4
