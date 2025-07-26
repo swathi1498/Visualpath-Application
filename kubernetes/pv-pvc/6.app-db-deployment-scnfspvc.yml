@@ -60,7 +60,6 @@ spec:
   selector:
     matchLabels:
       app: vprodb
-  serviceName: db-service
   replicas: 1
   template:
     metadata:
