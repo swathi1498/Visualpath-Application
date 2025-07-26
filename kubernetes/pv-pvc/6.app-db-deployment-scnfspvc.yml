@@ -60,6 +60,7 @@ spec:
   selector:
     matchLabels:
       app: vprodb
+  serviceName: db-service
   replicas: 1
   template:
     metadata:
@@ -93,6 +94,7 @@ spec:
   - port: 3306
     targetPort: vprodb-port
     protocol: TCP
+  clusterIP: None
   selector:
     app: vprodb
   type: ClusterIP
