@@ -34,7 +34,7 @@ spec:
     protocol: TCP
   selector:
     app: vproapp
-  type: NodePort
+  type: LoadBalancer
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
