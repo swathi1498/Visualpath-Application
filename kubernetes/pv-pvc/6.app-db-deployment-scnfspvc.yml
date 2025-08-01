@@ -81,7 +81,7 @@ spec:
            value: "vprodbpass"
         volumeMounts:
         - name: mysqldbvolume
-          mountPath: "/var/lib/mysql"
+          mountPath: "/data"
 ---
 # Vprofile db deployment Service
 apiVersion: v1
