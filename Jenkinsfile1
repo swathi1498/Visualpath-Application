@@ -1,0 +1,71 @@
+pipeline
+{
+    agent any
+    stages{
+        stage("Checkout code")
+        {
+            steps
+            {
+                checkout scmGit(branches: [[name: '*/docker-new']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/swathi1498/Visualpath-Application.git']])
+            }
+        }
+        stage("sonar-code analysis")
+         {
+             steps
+             {
+                 withSonarQubeEnv("sonar-server")
+                 {
+                     sh "mvn verify sonar:sonar"
+                 }
+             }
+         }
+         stage("quality gate")
+         {
+             steps
+             {
+                timeout(time: 5, unit: 'MINUTES')
+                {
+                    waitForQualityGate abortPipeline: true
+                }
+             }
+         }
+        stage("Build")
+        {
+            steps
+            {
+                sh 'mvn clean install -DskipTests=true'
+            }
+            post
+            {
+                success{
+                    echo 'now archiving'
+                    archiveArtifacts artifacts: 'target/*.war', followSymlinks: false
+                }
+            }
+         }
+         stage("nexus artifactory upload")
+         {
+             steps
+             {
+                 nexusArtifactUploader artifacts: [[artifactId: '$BUILD_TIMESTAMP', classifier: '', file: 'target/vprofile-v2.war', type: 'WAR']], credentialsId: '2c6be045-e6ea-41fd-adc4-714b288c5306', groupId: 'dev', nexusUrl: '172.31.87.125:8081', nexusVersion: 'nexus3', protocol: 'http', repository: 'vprofile', version: '$BUILD_ID'
+             }
+         }
+         stage("Building docker image")
+         {
+             steps
+             {
+                 dir('/var/lib/jenkins/workspace/vprofile/compose/')
+                 {
+                 sh 'docker-compose build'
+                 }
+             }
+         }
+         stage("eks deplopyment")
+         {
+             steps
+             {
+                 sh 'kubectl apply -f kubernetes/pv-pvc/6.app-db-deployment-scnfspvc.yml -n prod'
+             }
+         }
+    }
+}
